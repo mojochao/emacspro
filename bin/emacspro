@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Start emacs with a profile managed by emacspro in ~/.local/share/emacspro/profiles.
+
+if [[ $# -eq 0 ]] || [[ $1 == "-h" ]]; then
+    echo "usage: emacspro -h     --  show help"
+    echo "       emacspro -c     --  show emacspro config"
+    echo "       emacspro -d     --  show profiles directory"
+    echo "       emacspro -l     --  list profiles"
+    echo "       emacspro [...]  --  open files in emacs with profile"
+    echo ""
+    echo "config: EMACSPRO_HOME     --  directory where profiles are stored (default: ~/.local/share/emacspro)"
+    echo "        EMACSPRO_PROFILE  --  profile to use (default: default)"
+    exit 0
+fi
+
+# Set default values for EMACSPRO_HOME and EMACSPRO_PROFILE config if not set.
+[[ -z "${EMACSPRO_HOME}" ]] && EMACSPRO_HOME=$HOME/.local/share/emacspro
+[[ -z "${EMACSPRO_PROFILE}" ]] && EMACSPRO_PROFILE=default
+
+# Ensure profiles directory exists
+profiles_dir="${EMACSPRO_HOME}/profiles"
+[[ ! -d "${profiles_dir}" ]] && mkdir -p "${profiles_dir}"
+
+# Display config if indicated
+if [[ $1 == "-c" ]]; then
+    echo "EMACSPRO_HOME=${EMACSPRO_HOME}"
+    echo "EMACSPRO_PROFILE=${EMACSPRO_PROFILE}"
+    exit 0
+fi
+
+# Display profile directory if indicated
+if [[ $1 == "-d" ]]; then
+    echo "${profiles_dir}"
+    exit 0
+fi
+
+# Display available profiles if indicated
+if [[ $1 == "-l" ]]; then
+    ls -1 "${profiles_dir}"
+    exit 0
+fi
+
+# Otherwise start emacs with the indicated profile dir
+profile_dir=${profiles_dir}/${EMACSPRO_PROFILE}
+echo "starting emacs with ${EMACSPRO_PROFILE} profile in ${profile_dir}"
+emacs --init-directory "${profile_dir}" "$@" &>/dev/null &
