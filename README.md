@@ -1,8 +1,19 @@
 # emacspro
 
-This repository provides a simple `emacspro` bash script for running Emacs using
-one or more profiles in the `~/.local/share/emacspro` directory and the new
-`--init-directory` command line option present in Emacs 29 and later.
+This repository provides a simple `emacspro` bash script for running Emacs with
+named profiles.
+
+## Motivation
+
+Emacs 29 added a `--init-directory` command line option. This option allows you
+to specify a directory to load your Emacs configuration from. This is useful
+for running Emacs with different configurations, but you have to remember to
+pass the `--init-directory` option every time you open Emacs.
+
+The `emacspro` script provides a simple way to run Emacs with different configs.
+It allows you to manage multiple named profiles in its home directory, defined
+by the `EMACSPRO_HOME` environment variable, and then run Emacs with a single
+named profile, defined by the`EMACSPRO_PROFILE`environment variable.
 
 ## Usage
 
@@ -19,29 +30,24 @@ Next, add its `bin` directory to your `PATH`.
 export PATH=$PATH:~/src/emacspro/bin
 ```
 
-Finally, run Emacs using the `emacspro` wrapper script.
-Use the `-h` option to display usage info.
+Finally, run `emacspro -h` to display usage info.
 
 ```shell
-$ emacspro -h
-usage: emacspro -h     --  show help
-       emacspro -c     --  show emacspro config
-       emacspro -d     --  show profiles directory
-       emacspro -l     --  list profiles
-       emacspro [...]  --  open files in emacs with profile
+$ emacspro
+usage: emacspro -h            --  show help
+       emacspro -c            --  show emacspro config
+       emacspro -d            --  show profiles directory
+       emacspro -l            --  list profiles
+       emacspro -a NAME PATH  --  add profile
+       emacspro -r NAME       --  remove profile
+       emacspro [...]         --  open files in emacs with profile
 
 config: EMACSPRO_HOME     --  directory where profiles are stored (default: ~/.local/share/emacspro)
         EMACSPRO_PROFILE  --  profile to use (default: default)
-
 ```
 
-To add a new profile, create a new directory in the `~/.local/share/emacspro/profiles`
-directory with the contents of what would typically go in your `~/.emacs.d` directory.
+If extra lazy, define an alias in your shell config.
 
-If you have an existing `~/.emacs.d` directory, you can simply symlink it to a new
-directory in the `~/.local/share/emacspro/profiles` directory.
-
-If you use a profile that hasn't been created yet, `emacspro` will create its
-profile directory for you in the `~/.local/share/emacspro/profiles` directory.
-
-To remove a profile, simply delete its directory.
+```shell
+alias ep=emacspro
+```
