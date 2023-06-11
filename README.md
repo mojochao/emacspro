@@ -1,8 +1,8 @@
 # emacspro
 
 This repository provides a simple `emacspro` bash script for running Emacs using
-one or more profiles in the `~/.local/share/emacspro/profiles` directory and the
-new `--init-directory` command line option present in Emacs 29 and later.
+one or more profiles in the `~/.local/share/emacspro` directory and the new
+`--init-directory` command line option present in Emacs 29 and later.
 
 ## Usage
 
@@ -24,11 +24,15 @@ Use the `-h` option to display usage info.
 
 ```shell
 $ emacspro -h
-usage: emacspro -h    --  show help
-       emacspro -d    --  show profiles directory
-       emacspro -l    --  list profiles
-       emacspro [...] --  open files in emacs using profile set in EMACS_PROFILE env var
-                          if EMACS_PROFILE env var not set, defaults to 'default'
+usage: emacspro -h     --  show help
+       emacspro -c     --  show emacspro config
+       emacspro -d     --  show profiles directory
+       emacspro -l     --  list profiles
+       emacspro [...]  --  open files in emacs with profile
+
+config: EMACSPRO_HOME     --  directory where profiles are stored (default: ~/.local/share/emacspro)
+        EMACSPRO_PROFILE  --  profile to use (default: default)
+
 ```
 
 To add a new profile, create a new directory in the `~/.local/share/emacspro/profiles`
